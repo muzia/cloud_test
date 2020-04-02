@@ -7,20 +7,21 @@ import time
 from appium import webdriver
 import os
 class OneStrokeTest:
-    def __init__(self):
+    def __init__(self,device_name,platform_version,port):
         apk_path = os.path.join(os.getcwd(),'yibijizhang.apk')
-        self.deviceName= 'Android_7.1'
+        self.deviceName= device_name
         self.desired_caps = {
+            "automationName":"UiAutomator1",#针对appium1.13.1以上版本注意测试Android系统5.0以下版本必须增加此项配置
             "platformName":"Android",
-            "platformVersion":"7.1",
-            "deviceName":"Android_7.1",
+            "platformVersion":platform_version,
+            "deviceName":self.deviceName,
             "appPackage":"com.mobivans.onestrokecharge",
             "appActivity":"com.stub.stub01.Stub01",
             "app":apk_path,
-            "deviceName":"Android_5.1",
             "unicodeKeyboard":"true"
         }
-        self.url = f"http://127.0.0.1:4723/wd/hub"
+        self.url = "http://127.0.0.1:%d/wd/hub"% (port)
+        print('url',self.url)
 
     def start_test(self):
         driver = webdriver.Remote(self.url,self.desired_caps)
@@ -61,7 +62,7 @@ class OneStrokeTest:
         # driver.quit()
 
 if __name__ == '__main__':
-    OneStrokeTest().start_test()
+    OneStrokeTest('Android_7.1','7.1',4723).start_test()
 
 
 
